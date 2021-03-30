@@ -34,8 +34,17 @@ public class TennisGame2 implements TennisGame {
         return score;
     }
 
+    public boolean checkIfP1LoveVSP2scores() {
+        return P2point > 0 && P1point == 0;
+    }
+
+    public boolean checkIfP2LoveVSP1scores() {
+        return P1point > 0 && P2point == 0;
+
+    }
+
     public String P1LoveP2scores() {
-        if (P1point > 0 && P2point == 0) {
+        if (checkIfP2LoveVSP1scores()) {
             if (P1point == 1)
                 P1render = "Fifteen";
             if (P1point == 2)
@@ -50,7 +59,7 @@ public class TennisGame2 implements TennisGame {
     }
 
     public String P2LoveP1Scores() {
-        if (P2point > 0 && P1point == 0) {
+        if (checkIfP1LoveVSP2scores()) {
             switch (P2point) {
                 case 1:
                     P2render = "Fifteen";
@@ -73,16 +82,24 @@ public class TennisGame2 implements TennisGame {
         if (checkIfTiedAndLessThanFour()) {
             getTiedScore();
         }
-//        ==========================================================================
         if (checkIfDeuce())
             score = "Deuce";
-//        ===========================================================================
+
         P1LoveP2scores();
 
         P2LoveP1Scores();
 
 
-        if (P1point > P2point && P1point < 4) {
+    methoda();
+
+       methodb();
+        checkAdvantage();
+        checkWinAfterDeuce();
+        return score;
+    }
+
+    public String methoda() {
+        if (checkIfP1LeadsWithoutWinningSet()) {
             if (P1point == 2)
                 P1render = "Thirty";
             if (P1point == 3)
@@ -93,7 +110,11 @@ public class TennisGame2 implements TennisGame {
                 P2render = "Thirty";
             score = P1render + "-" + P2render;
         }
-        if (P2point > P1point && P2point < 4) {
+        return score;
+    }
+
+    public String methodb () {
+        if (checkIfP2LeadsWithoutWinningSet()) {
             if (P2point == 2)
                 P2render = "Thirty";
             if (P2point == 3)
@@ -102,17 +123,18 @@ public class TennisGame2 implements TennisGame {
                 P1render = "Fifteen";
             if (P1point == 2)
                 P1render = "Thirty";
-            score = P1render + "-" + P2render;
+           score = P1render + "-" + P2render;
         }
-//        ========================================================================
-//        
-        checkAdvantage();
-//        ============================================================================
-//
-        checkWinAfterDeuce();
-
-//        ====================================================================
         return score;
+    }
+
+    public boolean checkIfP2LeadsWithoutWinningSet() {
+        return P2point > P1point && P2point < 4;
+    }
+
+
+    public boolean checkIfP1LeadsWithoutWinningSet() {
+        return P1point > P2point && P1point < 4;
     }
 
     public String checkAdvantage() {
