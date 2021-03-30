@@ -1,47 +1,67 @@
 
 public class TennisGame3 implements TennisGame {
 
-    private int p2;
-    private int p1;
-    private String p1render;
-    private String p2render;
+    private int p2points;
+    private int p1points;
+    private String p1text;
+    private String p2text;
     String score;
     String[] pointNames = new String[]{"Love", "Fifteen", "Thirty", "Forty"};
 
-    public TennisGame3(String p1render, String p2render) {
-        this.p1render = p1render;
-        this.p2render = p2render;
+    public TennisGame3(String p1text, String p2text) {
+        this.p1text = p1text;
+        this.p2text = p2text;
     }
 
     public String getScore() {
-        if (checkDeuce()) {
-            score = pointNames[p1];
-            return tieOrDiff();
+        if (checkIfNotDeuce()) {
+            score = pointNames[p1points];
+            return checkIfTied();
         } else {
-            if (p1 == p2)
+            if (tied())
                 return "Deuce";
-            score = p1 > p2 ? p1render : p2render;
-            return advantageOrWin();
+            score = playerOnTheLead();
+            return handleDeuceAftermath();
         }
     }
 
-    public String tieOrDiff() {
-        return (p1 == p2) ? score + "-All" : score + "-" + pointNames[p2];
+    public String playerOnTheLead() {
+        return p1points > p2points ? p1text : p2text;
     }
 
-    public String advantageOrWin() {
-        return ((p1 - p2) * (p1 - p2) == 1) ? "Advantage " + score : "Win for " + score;
+    public boolean tied () {
+        return p1points == p2points;
     }
 
-    public boolean checkDeuce() {
-        return p1 < 4 && p2 < 4 && !(p1 + p2 == 6);
+    public boolean deuce() {
+        return p1points + p2points == 6;
+    }
+
+    public boolean checkIfNotDeuce() {
+        return playerScoreUnderFour() && !deuce();
+    }
+
+    public boolean playerScoreUnderFour() {
+        return p1points < 4 && p2points < 4;
+    }
+
+    public String checkIfTied() {
+        return (p1points == p2points) ? score + "-All" : score + "-" + pointNames[p2points];
+    }
+
+    public String handleDeuceAftermath() {
+        return (scoreDifference()) ? "Advantage " + score : "Win for " + score;
+    }
+
+    public boolean scoreDifference() {
+        return (p1points - p2points) * (p1points - p2points) == 1;
     }
 
     public void wonPoint(String playerName) {
         if (playerName == "player1")
-            this.p1 += 1;
+            this.p1points += 1;
         else
-            this.p2 += 1;
+            this.p2points += 1;
 
     }
 

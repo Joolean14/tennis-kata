@@ -11,19 +11,20 @@ public class TennisGame2 implements TennisGame {
 
     public String getScore() {
         if (checkIfTiedAndScoreLessThanFour()) {
-            getTiedScore();
+            getTiedScores();
         }
-        if (checkIfDeuce())
+        if (checkIfDeuce()) {
             score = "Deuce";
+        }
 
-        P1LoveP2scores();
-        P2LoveP1Scores();
+        P1LoveP2leads();
+        P2LoveP1Leads();
 
-        methoda();
-        methodb();
+        handleAverageGameplayP1Leads();
+        handleAverageGameplayP2Leads();
 
-        playerAdvantage();
-        checkWinAfterDeuce();
+        handlePlayerAdvantage();
+        handleDeuceAfterMath();
 
         return score;
     }
@@ -42,15 +43,19 @@ public class TennisGame2 implements TennisGame {
         return tied && P1point >= 3;
     }
 
-    public String getTiedScore() {
-        if (P1point == 0)
-            score = "Love";
-        if (P1point == 1)
-            score = "Fifteen";
-        if (P1point == 2)
-            score = "Thirty";
-        score += "-All";
-        return score;
+    public String getTiedScores() {
+        switch (P1point) {
+            case 0:
+                score = "Love";
+                break;
+            case 1:
+                score = "Fifteen";
+                break;
+            case 2:
+                score = "Thirty";
+                break;
+        }
+        return score += "-All";
     }
 
     public boolean checkIfP1LoveVSP2scores() {
@@ -62,14 +67,19 @@ public class TennisGame2 implements TennisGame {
 
     }
 
-    public String P1LoveP2scores() {
+    public String P1LoveP2leads() {
         if (checkIfP2LoveVSP1scores()) {
-            if (P1point == 1)
-                P1text = "Fifteen";
-            if (P1point == 2)
-                P1text = "Thirty";
-            if (P1point == 3)
-                P1text = "Forty";
+            switch (P1point) {
+                case 1:
+                    P1text = "Fifteen";
+                    break;
+                case 2:
+                    P1text = "Thirty";
+                    break;
+                case 3:
+                    P1text = "Forty";
+                    break;
+            }
 
             P2text = "Love";
             score = P1text + "-" + P2text;
@@ -77,31 +87,8 @@ public class TennisGame2 implements TennisGame {
         return score;
     }
 
-// Combinar estos dos metodos en 1
-//    public loveVersusOtherScores() {
-//        int temp = "";
-//        if (checkIfP2LoveVSP1scores()) {
-//            temp = P1point;
-//            P2text = "Love";
-//        } else if (checkIfP2LoveVSP1scores()) {
-//            temp = P2point;
-//            P1text = "Love";
-//        }
-//                switch (temp) {
-//                    case 1:
-//                        temp = "Fifteen";
-//                        break;
-//                    case 2:
-//                        temp = "Thirty";
-//                        break;
-//                    case 3:
-//                        temp = "Forty";
-//                        break;
-//                }
-//    }
 
-
-    public String P2LoveP1Scores() {
+    public String P2LoveP1Leads() {
         if (checkIfP1LoveVSP2scores()) {
             switch (P2point) {
                 case 1:
@@ -121,8 +108,7 @@ public class TennisGame2 implements TennisGame {
         return score;
     }
 
-
-    public String methoda() {
+    public String handleAverageGameplayP1Leads() {
         if (checkIfP1LeadsWithoutWinningSet()) {
             if (P1point == 2)
                 P1text = "Thirty";
@@ -137,7 +123,7 @@ public class TennisGame2 implements TennisGame {
         return score;
     }
 
-    public String methodb() {
+    public String handleAverageGameplayP2Leads() {
         if (checkIfP2LeadsWithoutWinningSet()) {
             if (P2point == 2)
                 P2text = "Thirty";
@@ -153,7 +139,6 @@ public class TennisGame2 implements TennisGame {
     }
 
     public boolean checkIfP1LeadsWithoutWinningSet() {
-
         return P1point > P2point && P1point < 4;
     }
 
@@ -161,9 +146,7 @@ public class TennisGame2 implements TennisGame {
         return P2point > P1point && P2point < 4;
     }
 
-
-
-    public String playerAdvantage() {
+    public String handlePlayerAdvantage() {
         if (checkP1Advantage()) {
             score = "Advantage player1";
         }
@@ -183,17 +166,16 @@ public class TennisGame2 implements TennisGame {
     }
 
 
-
-    public boolean P1LeadsByMoreThanTwo () {
+    public boolean P1LeadsByMoreThanTwo() {
         return (P1point - P2point) >= 2;
     }
 
-    public boolean P2LeadsByMoreThanTwo () {
+    public boolean P2LeadsByMoreThanTwo() {
         return (P2point - P1point) >= 2;
     }
 
     public boolean P1winsDeuce() {
-        return P1point >= 4 && P2point >= 0 && P1LeadsByMoreThanTwo() ;
+        return P1point >= 4 && P2point >= 0 && P1LeadsByMoreThanTwo();
     }
 
     public boolean P2winsDeuce() {
@@ -201,7 +183,7 @@ public class TennisGame2 implements TennisGame {
     }
 
 
-    public String checkWinAfterDeuce() {
+    public String handleDeuceAfterMath() {
         if (P1winsDeuce()) {
             score = "Win for player1";
         }
@@ -212,34 +194,10 @@ public class TennisGame2 implements TennisGame {
 
     }
 
-    public void SetP1Score(int number) {
-
-        for (int i = 0; i < number; i++) {
-            P1Score();
-        }
-
-    }
-
-    public void SetP2Score(int number) {
-
-        for (int i = 0; i < number; i++) {
-            P2Score();
-        }
-
-    }
-
-    public void P1Score() {
-        P1point++;
-    }
-
-    public void P2Score() {
-        P2point++;
-    }
-
     public void wonPoint(String player) {
         if (player == "player1")
-            P1Score();
+            P1point++;
         else
-            P2Score();
+            P2point++;
     }
 }

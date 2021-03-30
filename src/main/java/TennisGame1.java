@@ -12,14 +12,24 @@ public class TennisGame1 implements TennisGame {
         this.player2Name = player2Name;
     }
 
-    public void wonPoint(String playerName) {
-        if (playerName == "player1")
-            player1Score += 1;
-        else
-            player2Score += 1;
+    public String getScore() {
+        String score = "";
+
+        if (tied()) {
+            score = printTiedScores();
+        } else if (checkIfScoreIsGreaterThanFour()) {
+            score = handleDeuceAfterMath();
+        } else {
+            score = gameplay();
+        }
+        return score;
     }
 
-    public String tiedScore() {
+    public boolean tied () {
+        return player1Score == player2Score;
+    }
+
+    public String printTiedScores() {
 
         switch (player1Score) {
             case 0:
@@ -33,11 +43,7 @@ public class TennisGame1 implements TennisGame {
         }
     }
 
-    public int getScoreDifference() {
-        return player1Score - player2Score;
-    }
-
-    public String wonSet() {
+    public String handleDeuceAfterMath() {
         String score = "";
 
         if (getScoreDifference() == 1 || getScoreDifference() == -1) {
@@ -45,11 +51,23 @@ public class TennisGame1 implements TennisGame {
         } else {
             score = scoreDifference2();
         }
-
-
         return score;
-
     }
+
+
+    public void wonPoint(String playerName) {
+        if (playerName == "player1")
+            player1Score += 1;
+        else
+            player2Score += 1;
+    }
+
+
+
+    public int getScoreDifference() {
+        return player1Score - player2Score;
+    }
+
 
     public String advantage() {
         String score = "";
@@ -79,12 +97,12 @@ public class TennisGame1 implements TennisGame {
                 score += "-";
                 tempScore = player2Score;
             }
-            score += getScoreByPlayer();
+            score += printScoresText();
         }
         return score;
     }
 
-    public String getScoreByPlayer() {
+    public String printScoresText() {
         switch (tempScore) {
             case 0:
                 return "Love";
@@ -98,22 +116,11 @@ public class TennisGame1 implements TennisGame {
 
     }
 
-    public boolean checkWinnerOrAdvantage() {
+    public boolean checkIfScoreIsGreaterThanFour() {
                 return player1Score >= 4 || player2Score >= 4;
     }
 
-    public String getScore() {
-        String score = "";
 
-        if (player1Score == player2Score) {
-            score = tiedScore();
-        } else if (checkWinnerOrAdvantage()) {
-            score = wonSet();
-        } else {
-            score = gameplay();
-        }
-        return score;
-    }
 }
 
 
