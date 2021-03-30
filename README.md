@@ -26,11 +26,13 @@ Puede leer más sobre los puntajes de tenis aquí, que se resume a continuación
 
 El primer jugador que gana un juego gana al menos cuatro puntos en total y al menos dos puntos más que el oponente.
 
-El puntaje de cada juego se describe de una manera peculiar al tenis: los puntajes de cero a tres puntos se describen como "Love", "Fifteen", "Thirty", y "Forty" respectivamente.
+El puntaje de cada juego se describe de una manera peculiar al tenis: los puntajes de cero a tres puntos 
+se describen como "Love", "Fifteen", "Thirty", y "Forty" respectivamente.
 
 Si cada jugador ha obtenido al menos tres puntos y los puntajes son iguales, el puntaje es "Deuce".
 
-Si se han anotado al menos tres puntos por cada lado y un jugador tiene un punto más que su oponente, el puntaje del juego es "Advantage" para el jugador que lidera.
+Si se han anotado al menos tres puntos por cada lado y un jugador tiene un punto más que su oponente, 
+el puntaje del juego es "Advantage" para el jugador que lidera.
 
 Solo necesitas informar el puntaje del juego actual. Los conjuntos y las coincidencias están fuera de alcance.
 

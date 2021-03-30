@@ -3,26 +3,38 @@ public class TennisGame3 implements TennisGame {
     
     private int p2;
     private int p1;
-    private String p1N;
-    private String p2N;
+    private String p1render;
+    private String p2render;
+        String score;
+            String[] pointNames = new String[]{"Love", "Fifteen", "Thirty", "Forty"};
 
-    public TennisGame3(String p1N, String p2N) {
-        this.p1N = p1N;
-        this.p2N = p2N;
+    public TennisGame3(String p1render, String p2render) {
+        this.p1render = p1render;
+        this.p2render = p2render;
     }
 
     public String getScore() {
-        String s;
-        if (p1 < 4 && p2 < 4 && !(p1 + p2 == 6)) {
-            String[] p = new String[]{"Love", "Fifteen", "Thirty", "Forty"}; 
-            s = p[p1];
-            return (p1 == p2) ? s + "-All" : s + "-" + p[p2];
+        if (checkDeuce()) {
+            score = pointNames[p1];
+            return tieOrDiff();
         } else {
             if (p1 == p2)
                 return "Deuce";
-            s = p1 > p2 ? p1N : p2N;
-            return ((p1-p2)*(p1-p2) == 1) ? "Advantage " + s : "Win for " + s;
+            score = p1 > p2 ? p1render : p2render;
+            return advantageOrWin();
         }
+    }
+
+    public String tieOrDiff() {
+        return (p1 == p2) ? score + "-All" : score + "-" + pointNames[p2];
+    }
+
+    public String advantageOrWin() {
+        return ((p1-p2)*(p1-p2) == 1) ? "Advantage " + score : "Win for " + score;
+    }
+
+    public boolean checkDeuce() {
+       return p1 < 4 && p2 < 4 && !(p1 + p2 == 6);
     }
     
     public void wonPoint(String playerName) {
